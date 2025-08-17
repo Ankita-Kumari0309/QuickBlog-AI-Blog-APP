@@ -17,7 +17,8 @@ function AdminBlogListWithView() {
     description: "",
   });
 
-  const API_URL = process.env.REACT_APP_API_URL;
+ const API_URL = "https://quickblog-backend-3w61.onrender.com";
+
 
   useEffect(() => {
     fetchBlogs();
