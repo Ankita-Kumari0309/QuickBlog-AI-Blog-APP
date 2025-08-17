@@ -12,7 +12,8 @@ function HomeOverview() {
   const [topicData, setTopicData] = useState({});
 
   const token = localStorage.getItem("token");
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = "https://quickblog-backend-3w61.onrender.com";
+
 
   const fetchDashboardData = async () => {
     try {
