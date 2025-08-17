@@ -7,7 +7,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const API_URL = process.env.REACT_APP_API_URL; // <-- deployed backend
+   const API_URL = "https://quickblog-backend-3w61.onrender.com"; // <-- deployed backend
 console.log(process.env.REACT_APP_API_URL);
 
   const handleSubmit = async (e) => {
