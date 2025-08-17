@@ -12,23 +12,24 @@ function HomeOverview() {
   const [topicData, setTopicData] = useState({});
 
   const token = localStorage.getItem("token");
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const fetchDashboardData = async () => {
     try {
       const totalRes = await axios.get(
-        "http://localhost:5000/api/posts/dashboard/total-blogs",
+        `${API_URL}/api/posts/dashboard/total-blogs`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setTotalBlogs(totalRes.data.totalBlogs);
 
       const latestRes = await axios.get(
-        "http://localhost:5000/api/posts/dashboard/latest-blogs",
+        `${API_URL}/api/posts/dashboard/latest-blogs`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setLatestBlogs(latestRes.data);
 
       const topicsRes = await axios.get(
-        "http://localhost:5000/api/posts/dashboard/topics-graph",
+        `${API_URL}/api/posts/dashboard/topics-graph`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
