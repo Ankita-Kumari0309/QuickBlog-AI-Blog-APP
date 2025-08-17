@@ -17,13 +17,15 @@ function AdminBlogListWithView() {
     description: "",
   });
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     fetchBlogs();
   }, []);
 
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/posts/all-blocks", {
+      const res = await axios.get(`${API_URL}/api/posts/all-blocks`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       setBlogs(res.data);
@@ -47,7 +49,7 @@ function AdminBlogListWithView() {
   const handleUnpublish = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/posts/${id}/unpublish`,
+        `${API_URL}/api/posts/${id}/unpublish`,
         {},
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
@@ -60,7 +62,7 @@ function AdminBlogListWithView() {
   const handlePublish = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/posts/${id}/publish`,
+        `${API_URL}/api/posts/${id}/publish`,
         {},
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
@@ -73,7 +75,7 @@ function AdminBlogListWithView() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this blog?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/posts/${id}`, {
+      await axios.delete(`${API_URL}/api/posts/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       fetchBlogs();
@@ -96,7 +98,7 @@ function AdminBlogListWithView() {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:5000/api/posts/${editingBlog._id}`,
+        `${API_URL}/api/posts/${editingBlog._id}`,
         formData,
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
@@ -126,7 +128,7 @@ function AdminBlogListWithView() {
   const handleLike = async (id) => {
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/posts/${id}/like`,
+        `${API_URL}/api/posts/${id}/like`,
         {},
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
@@ -140,7 +142,7 @@ function AdminBlogListWithView() {
     if (!newComment.trim()) return;
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/posts/${id}/comment`,
+        `${API_URL}/api/posts/${id}/comment`,
         { text: newComment },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
@@ -169,7 +171,7 @@ function AdminBlogListWithView() {
     window.open(url, "_blank", "width=600,height=400");
 
     try {
-      const res = await axios.put(`http://localhost:5000/api/posts/${blog._id}/share`);
+      const res = await axios.put(`${API_URL}/api/posts/${blog._id}/share`);
       setBlogs((prev) =>
         prev.map((b) => (b._id === blog._id ? { ...b, shares: res.data.shares } : b))
       );
