@@ -140,4 +140,4 @@ Frontend: Deployed on Vercel
 
 Backend: Deployed on Render
 
-Live App: https://drive.google.com/file/d/1haTQBpTlIVFxsk6iuYaMf1yEQX9T_Yns/view?usp=sharing
+Live App: https://quick-blog-ai-blog-app.vercel.app/
