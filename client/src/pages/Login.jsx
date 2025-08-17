@@ -8,6 +8,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const API_URL = process.env.REACT_APP_API_URL; // <-- deployed backend
+console.log(process.env.REACT_APP_API_URL);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
