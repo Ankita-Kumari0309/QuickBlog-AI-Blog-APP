@@ -21,7 +21,8 @@ function WriteBlog({ onBlogAdded, existingBlog }) {
   const [category, setCategory] = useState(existingBlog?.category || "All");
   const [isPublished, setIsPublished] = useState(existingBlog?.isPublished ?? true);
 
-  const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "https://quickblog-backend-3w61.onrender.com";
+
 
   // Initialize Quill editor
   useEffect(() => {
