@@ -7,18 +7,30 @@ import path from "path";
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/posts.js";
 import userRoutes from "./routes/user.js";
-import generateAIRouter from "./routes/generate-ai.js"; // <-- use same name
+import generateAIRouter from "./routes/generate-ai.js";
 
 dotenv.config();
 const app = express();
 
+// CORS setup for both local and deployed frontend
+const allowedOrigins = [
+  "http://localhost:5173", // local dev
+  "https://quick-blog-ai-blog-app.vercel.app" // deployed frontend
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true); // allow requests like Postman or curl
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = "The CORS policy for this site does not allow access from the specified Origin.";
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
+}));
+
 // Middleware
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -29,7 +41,7 @@ app.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
 app.use("/api/authRoutes", authRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/ai", generateAIRouter); 
+app.use("/api/ai", generateAIRouter);
 
 // Default route
 app.get("/", (req, res) => {
@@ -42,9 +54,9 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log(" MongoDB connected"))
-  .catch((err) => console.error(" MongoDB connection error:", err));
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
