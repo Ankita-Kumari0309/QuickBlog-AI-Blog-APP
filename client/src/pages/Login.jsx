@@ -7,11 +7,13 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const API_URL = process.env.REACT_APP_API_URL; // <-- deployed backend
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/api/authRoutes/login", {
+      const res = await axios.post(`${API_URL}/api/authRoutes/login`, {
         email,
         password
       });
