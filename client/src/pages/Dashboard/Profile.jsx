@@ -14,13 +14,15 @@ function Profile() {
   });
   const [previewImage, setPreviewImage] = useState(null);
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     fetchProfile();
   }, []);
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/users/me", {
+      const res = await axios.get(`${API_URL}/api/users/me`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       setUser(res.data);
@@ -58,16 +60,12 @@ function Profile() {
       formData.append("bio", tempUser.bio);
       if (tempUser.image) formData.append("image", tempUser.image);
 
-      const res = await axios.put(
-        "http://localhost:5000/api/users/me",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await axios.put(`${API_URL}/api/users/me`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       setUser(res.data);
       setEditMode(false);
