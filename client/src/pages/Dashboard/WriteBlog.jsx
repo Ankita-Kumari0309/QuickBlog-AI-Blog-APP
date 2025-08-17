@@ -21,6 +21,8 @@ function WriteBlog({ onBlogAdded, existingBlog }) {
   const [category, setCategory] = useState(existingBlog?.category || "All");
   const [isPublished, setIsPublished] = useState(existingBlog?.isPublished ?? true);
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   // Initialize Quill editor
   useEffect(() => {
     if (editorRef.current && !quillRef.current) {
@@ -66,12 +68,12 @@ function WriteBlog({ onBlogAdded, existingBlog }) {
       if (!token) throw new Error("You must be logged in to publish a blog");
 
       if (existingBlog) {
-        await axios.put(`http://localhost:5000/api/posts/${existingBlog._id}`, formData, {
+        await axios.put(`${API_URL}/api/posts/${existingBlog._id}`, formData, {
           headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
         });
         alert("Blog updated successfully!");
       } else {
-        await axios.post("http://localhost:5000/api/posts", formData, {
+        await axios.post(`${API_URL}/api/posts`, formData, {
           headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
         });
         alert("Blog added successfully!");
@@ -104,7 +106,7 @@ function WriteBlog({ onBlogAdded, existingBlog }) {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:5000/api/ai/generate-blog",
+        `${API_URL}/api/ai/generate-blog`,
         { title, subTitle, category },
         { headers: { Authorization: `Bearer ${token}` } }
       );
