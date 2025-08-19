@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useUser } from "../context/UserContext"; // ✅ import context
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { updateUser } = useUser(); // ✅ get updater from context
 
-   const API_URL = "https://quickblog-backend-3w61.onrender.com"; // <-- deployed backend
-console.log(process.env.REACT_APP_API_URL);
+  const API_URL = "https://quickblog-backend-3w61.onrender.com"; // <-- deployed backend
+  console.log(process.env.REACT_APP_API_URL);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,17 +18,17 @@ console.log(process.env.REACT_APP_API_URL);
     try {
       const res = await axios.post(`${API_URL}/api/authRoutes/login`, {
         email,
-        password
+        password,
       });
 
       console.log("Login response:", res.data);
 
-      // Save token & user data
+      // ✅ Save token & update user in context (this also updates localStorage)
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      updateUser(res.data.user);
 
       alert("Login successful!");
-      navigate("/dashboard"); 
+      navigate("/dashboard");
     } catch (err) {
       console.error("Login error:", err.response?.data || err.message);
       alert(err.response?.data?.message || "Login failed");
